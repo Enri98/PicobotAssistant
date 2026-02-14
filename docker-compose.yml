@@ -1,0 +1,34 @@
+services:
+  picobot:
+    image: louisho5/picobot:latest
+    container_name: picobot
+    restart: unless-stopped
+
+    # hardening
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=64m
+
+    # resource caps
+    mem_limit: 768m
+    cpus: 1.0
+    pids_limit: 256
+
+    environment:
+      OPENAI_API_KEY: ${GEMINI_API_KEY}
+      OPENAI_API_BASE: https://generativelanguage.googleapis.com/v1beta/openai/
+      PICOBOT_MODEL: ${PICOBOT_MODEL}
+
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      TELEGRAM_ALLOW_FROM: ${TELEGRAM_ALLOW_FROM}
+
+    volumes:
+      - ./picobot-data:/home/picobot/.picobot
+      - ./calendar:/calendar
+      - ./inbox:/inbox:ro
+
+    command: ["picobot","gateway"]
