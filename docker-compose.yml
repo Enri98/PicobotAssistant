@@ -3,6 +3,7 @@ services:
     image: louisho5/picobot:latest
     container_name: picobot
     restart: unless-stopped
+    user: "${LOCAL_UID}:${LOCAL_GID}"
 
     # hardening
     read_only: true
@@ -19,6 +20,7 @@ services:
     pids_limit: 256
 
     environment:
+      HOME: /home/picobot
       OPENAI_API_KEY: ${GEMINI_API_KEY}
       OPENAI_API_BASE: https://generativelanguage.googleapis.com/v1beta/openai/
       PICOBOT_MODEL: ${PICOBOT_MODEL}
@@ -31,4 +33,4 @@ services:
       - ./calendar:/calendar
       - ./inbox:/inbox:ro
 
-    command: ["picobot","gateway"]
+    command: ["gateway"]

@@ -19,4 +19,10 @@ build/
 *.whl
 *.tar.gz
 
-calendar.json
+calendar/calendar.json
+
+# Picobot runtime state (generated, machine-local, may contain secrets)
+picobot-data/*
+!picobot-data/workspace/
+picobot-data/workspace/*
+!picobot-data/workspace/*.md
